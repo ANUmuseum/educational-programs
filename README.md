@@ -1,1 +1,1 @@
-# educational-programs
+# Educational-Programs
