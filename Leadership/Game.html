@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <!-- Created using Storyline 360 - http://www.articulate.com  -->
-  <!-- version: 3.73.30119.0 -->
-  <title>&#1502;&#1504;&#1492;&#1497;&#1490;&#1493;&#1514;</title>
+  <!-- version: 3.77.30587.0 -->
+  <title>Leadership-3Floors</title>
   <meta http-equiv="x-ua-compatible" content="IE=edge"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,shrink-to-fit=no,minimal-ui"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -28,18 +28,18 @@
       captureRc: false,
       browserSize: 'optimal',
       bgColor: '#282828',
-      features: 'AccessibleVideo,ConnectionMessages,FullScreenToggle,InsertSvgPicture,LayerPresentAsDialog,MultipleQuizTracking,PlayerSpeedControl,StreamingVideo,UpdatedThemeEditor,UseAudioElement',
+      features: 'AccessibleVideo,ConnectionMessages,DropIn1,DropIn2,FullScreenToggle,LayerPresentAsDialog,MultipleQuizTracking,PlayerSpeedControl,StreamingVideo,UpdatedThemeEditor,UseAudioElement,VideoSync',
       themeName: 'unified',
       preloaderColor: '#FFFFFF',
       suppressAnalytics: false,
       productChannel: 'stable',
       publishSource: 'storyline',
-      aid: 'aid|9d002937-4311-4368-92b7-8b13f7f79723',
-      cid: 'c1474062-251c-4036-ae30-7f21fad1bee9',
-      playerVersion: '3.73.30119.0',
-      publishTimestamp: '2023-04-23T18:53:42.3667336Z',
+      aid: 'aid|e0a40bd9-9e29-4ddc-addf-44417ee76492',
+      cid: 'f4dd213a-4030-417a-a6ed-57e0bafee14b',
+      playerVersion: '3.77.30587.0',
+      publishTimestamp: '2024-02-08T14:31:30.6202865Z',
       maxIosVideoElements: 10,
-      connectionSettings: { message: 'You%20are%20offline.%20Trying%20to%20reconnect...', useDarkTheme: false },
+      connectionSettings: { message: 'You%20are%20offline.%20Trying%20to%20reconnect...', useDarkTheme: false, mode: 'disabled' },
 
       
       parseParams: function(qs) {
@@ -131,7 +131,7 @@
   </script>
 
   <div class="mobile-load-title-overlay" style="display: none">
-    <div class="mobile-load-title">&#1502;&#1504;&#1492;&#1497;&#1490;&#1493;&#1514;</div>
+    <div class="mobile-load-title">Leadership-3Floors</div>
   </div>
 
   <div class="mobile-chrome-warning"></div>
@@ -239,22 +239,20 @@
       retryDelay: 500
     };
 
-    // @TODO this is POC code and can be cleaned up a bit more if we move forward
-    // with the feature
-
-
+    var connectionSettings = window.globals.connectionSettings || {};
 
     // The `window.globals.features` variable must be set in `webpack.dev.config` when testing locally - it is not enough
     // to have it in the data - but it must be set there as well.
     var useConnectionMessages = window.AbortController != null &&
       window.location.protocol != 'file:' &&
-      window.globals.features.indexOf('ConnectionMessages') != -1;
+      window.globals.features.indexOf('ConnectionMessages') != -1 &&
+      connectionSettings.mode === 'normal';
 
     window.DS.connection.useConnectionMessages = useConnectionMessages
 
     var assetCount = 0;
     var checkLoadedId;
-    var connectionSettings = window.globals.connectionSettings;
+
 
     if (useConnectionMessages && connectionSettings != null) {
       var contentEl = document.querySelector('.warn-connection-content');
@@ -344,7 +342,7 @@
     function assetFailed(url) {
       if (!useConnectionMessages) { return; }
       if (!DS.connection.assets[url]) {
-        if (/\.js$/.test(url)) {
+        if (/\.js$/.test(url) && url.indexOf('transcripts') === -1) {
           setTimeout(function() {
             if (DS.connection.lastSlideLoaded != null) {
               DS.connection.lastSlideLoaded();
